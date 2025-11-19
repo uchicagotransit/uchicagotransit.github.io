@@ -10,6 +10,15 @@
     <link rel="apple-touch-icon" sizes="180x180" href="sources/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="192x192" href="sources/android-chrome-192x192.png">
     <link rel="icon" type="image/png" sizes="512x512" href="sources/android-chrome-512x512.png">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-T2D99Y4FXZ"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-T2D99Y4FXZ');
+    </script>
     <style>
         * {
             margin: 0;
@@ -40,6 +49,19 @@
 
         .form-group {
             margin-bottom: 30px;
+        }
+
+        .form-fields {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .field-order-1 {
+            order: 1;
+        }
+
+        .field-order-2 {
+            order: 2;
         }
 
         label {
@@ -104,7 +126,7 @@
             font-size: 1.15rem;
             font-weight: 600;
             color: #ffffff;
-            background-color: #4A90E2;
+            background-color: #800020;
             border: none;
             border-radius: 10px;
             cursor: pointer;
@@ -112,11 +134,11 @@
         }
 
         .submit-button:hover {
-            background-color: #357ABD;
+            background-color: #660019;
         }
 
         .submit-button:active {
-            background-color: #2868A8;
+            background-color: #4d0013;
         }
 
         .disclaimer {
@@ -144,6 +166,71 @@
             color: #888888;
             margin-top: 3px;
             display: none;
+        }
+
+        .direction-group {
+            margin-bottom: 30px;
+        }
+
+        .radio-options {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .radio-option input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            cursor: pointer;
+            accent-color: #4A90E2;
+        }
+
+        .radio-option label {
+            margin: 0;
+            font-size: 1rem;
+            font-weight: 400;
+            cursor: pointer;
+        }
+
+        .callout-box {
+            display: none;
+            background-color: #800020;
+            color: #ffffff;
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            text-decoration: none;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .callout-box.visible {
+            display: flex;
+        }
+
+        .callout-box:hover {
+            background-color: #660019;
+        }
+
+        .callout-text {
+            flex: 1;
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+
+        .callout-arrow {
+            margin-left: 15px;
+            font-size: 1.5rem;
+            font-weight: bold;
         }
 
         @media (max-width: 600px) {
@@ -194,18 +281,38 @@
         <h1>Plan trip</h1>
 
         <form id="tripForm">
-            <div class="form-group">
-                <label for="from">From:</label>
-                <input type="text" id="from" name="from" placeholder="Enter your address" required>
+            <div class="form-group direction-group">
+                <label>Direction:</label>
+                <div class="radio-options">
+                    <div class="radio-option">
+                        <input type="radio" id="toAirport" name="direction" value="toAirport" checked>
+                        <label for="toAirport">To Airport</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="fromAirport" name="direction" value="fromAirport">
+                        <label for="fromAirport">From Airport</label>
+                    </div>
+                </div>
+                <a href="https://transit.rso.uchicago.edu/welcome/#:~:text=Coming%20from%20the%20airport%3F%20Skip%20the%20expensive%20rideshare." target="_blank" rel="noopener noreferrer" class="callout-box" id="calloutBox">
+                    <span class="callout-text">Learn more about how transit can give you a cheaper rideshare fare.</span>
+                    <span class="callout-arrow">→</span>
+                </a>
             </div>
 
-            <div class="form-group">
-                <label for="to">To:</label>
-                <select id="to" name="to" required>
-                    <option value="">Select airport</option>
-                    <option value="MDW">MDW - Midway International Airport</option>
-                    <option value="ORD">ORD - O'Hare International Airport</option>
-                </select>
+            <div class="form-fields">
+                <div class="form-group" id="addressGroup">
+                    <label for="address" id="addressLabel">Your Address:</label>
+                    <input type="text" id="address" name="address" placeholder="Enter your address" required>
+                </div>
+
+                <div class="form-group" id="airportGroup">
+                    <label for="airport" id="airportLabel">Airport:</label>
+                    <select id="airport" name="airport" required>
+                        <option value="">Select airport</option>
+                        <option value="MDW">MDW - Midway International Airport</option>
+                        <option value="ORD">ORD - O'Hare International Airport</option>
+                    </select>
+                </div>
             </div>
 
             <div class="form-group">
@@ -214,38 +321,87 @@
             </div>
 
             <div class="form-group">
-                <label for="time">Leaving UChicago at:</label>
+                <label for="time" id="timeLabel">Leaving UChicago at:</label>
                 <input type="time" id="time" name="time" placeholder="e.g., 5:30 PM or 17:30" required>
             </div>
 
-            <button type="submit" class="submit-button">Take the train, instead →</button>
+            <button type="submit" class="submit-button">Take transit, instead →</button>
         </form>
 
         <div class="disclaimer">
             <a href="https://transit.rso.uchicago.edu" target="_blank" rel="noopener noreferrer">
-                UChicago Transit Enthusiasts & Explorers reminds you that you can also save money going to the airport by taking transit.
+                UChicago Transit Enthusiasts & Explorers RSO reminds you that you can save money going to the airport by taking transit.
             </a>
         </div>
     </div>
 
     <script>
+        // Update form labels and order based on direction
+        function updateFormLabels() {
+            const direction = document.querySelector('input[name="direction"]:checked').value;
+            const addressLabel = document.getElementById('addressLabel');
+            const airportLabel = document.getElementById('airportLabel');
+            const timeLabel = document.getElementById('timeLabel');
+            const addressGroup = document.getElementById('addressGroup');
+            const airportGroup = document.getElementById('airportGroup');
+            const calloutBox = document.getElementById('calloutBox');
+
+            if (direction === 'toAirport') {
+                // Going to airport: Address first, then Airport
+                addressLabel.textContent = 'From:';
+                airportLabel.textContent = 'To:';
+                timeLabel.textContent = 'Leaving UChicago at:';
+                addressGroup.classList.remove('field-order-2');
+                addressGroup.classList.add('field-order-1');
+                airportGroup.classList.remove('field-order-1');
+                airportGroup.classList.add('field-order-2');
+                calloutBox.classList.remove('visible');
+            } else {
+                // Coming from airport: Airport first, then Address
+                addressLabel.textContent = 'To:';
+                airportLabel.textContent = 'From:';
+                timeLabel.textContent = 'Arriving at UChicago at:';
+                addressGroup.classList.remove('field-order-1');
+                addressGroup.classList.add('field-order-2');
+                airportGroup.classList.remove('field-order-2');
+                airportGroup.classList.add('field-order-1');
+                calloutBox.classList.add('visible');
+            }
+        }
+
+        // Listen for direction changes
+        document.querySelectorAll('input[name="direction"]').forEach(radio => {
+            radio.addEventListener('change', updateFormLabels);
+        });
+
         document.getElementById('tripForm').addEventListener('submit', function(e) {
             e.preventDefault();
 
-            const from = document.getElementById('from').value;
-            const to = document.getElementById('to').value;
+            const direction = document.querySelector('input[name="direction"]:checked').value;
+            const addressInput = document.getElementById('address').value;
+            const airportCode = document.getElementById('airport').value;
             const date = document.getElementById('date').value;
             const time = document.getElementById('time').value;
 
-            // Encode the origin address
-            const encodedFrom = encodeURIComponent(from);
+            // Set up origin and destination based on direction
+            let origin, destination;
 
-            // Create the destination (airport code with full name)
-            let destination = '';
-            if (to === 'MDW') {
-                destination = 'MDW,+South+Cicero+Avenue,+Chicago,+IL';
-            } else if (to === 'ORD') {
-                destination = 'ORD,+Chicago,+IL';
+            if (direction === 'toAirport') {
+                // Going to airport: from address to airport
+                origin = addressInput;
+                if (airportCode === 'MDW') {
+                    destination = 'Midway Orange Line Station Chicago, IL';
+                } else if (airportCode === 'ORD') {
+                    destination = "O'Hare Blue Line Station, Chicago, IL";
+                }
+            } else {
+                // Coming from airport: from airport to address
+                if (airportCode === 'MDW') {
+                    origin = 'Midway Orange Line Station Chicago, IL';
+                } else if (airportCode === 'ORD') {
+                    origin = "O'Hare Blue Line Station, Chicago, IL";
+                }
+                destination = addressInput;
             }
 
             // Combine date and time for departure time parameter
@@ -253,20 +409,25 @@
             const departureTimestamp = Math.floor(new Date(departureDateTime).getTime() / 1000);
 
             // Debug: log the timestamp
+            console.log('Direction:', direction);
             console.log('Date:', date);
             console.log('Time:', time);
             console.log('DateTime:', departureDateTime);
             console.log('Timestamp:', departureTimestamp);
             console.log('Human readable:', new Date(departureTimestamp * 1000).toString());
 
-            // Construct Google Maps Transit URL with departure time
-            // Format: google.com/maps/dir/{origin}/{destination}/data=...!2m3!6e0!7e2!8j{timestamp}!3e3
-            // 2m3 - data section with 3 parameters
-            // 6e0 - route options
-            // 7e2 - depart at specified time (7e3 would be arrive by)
-            // 8j{timestamp} - Unix timestamp in seconds
-            // 3e3 - transit mode
-            const mapsUrl = `https://www.google.com/maps/dir/${encodedFrom}/${destination}/data=!3m1!4e3!4m2!4m1!3e3!2m3!6e0!7e2!8j${departureTimestamp}?entry=ttu`;
+            // Construct Google Maps Directions API URL
+            // Official format: https://www.google.com/maps/dir/?api=1&origin=X&destination=Y&travelmode=transit&departure_time=TIMESTAMP
+            const params = new URLSearchParams({
+                api: '1',
+                origin: origin,
+                destination: destination,
+                travelmode: 'transit',
+                transit_mode: 'rail|bus',
+                departure_time: departureTimestamp
+            });
+
+            const mapsUrl = `https://www.google.com/maps/dir/?${params.toString()}`;
 
             // Debug: log the URL
             console.log('Maps URL:', mapsUrl);
@@ -278,6 +439,9 @@
         // Set minimum date to today
         const today = new Date().toISOString().split('T')[0];
         document.getElementById('date').setAttribute('min', today);
+
+        // Initialize form labels
+        updateFormLabels();
     </script>
 </body>
 </html>
