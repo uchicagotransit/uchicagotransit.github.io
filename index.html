@@ -315,22 +315,12 @@
                 </div>
             </div>
 
-            <div class="form-group">
-                <label for="date">Date:</label>
-                <input type="date" id="date" name="date" required>
-            </div>
-
-            <div class="form-group">
-                <label for="time" id="timeLabel">Leaving UChicago at:</label>
-                <input type="time" id="time" name="time" placeholder="e.g., 5:30 PM or 17:30" required>
-            </div>
-
             <button type="submit" class="submit-button">Take transit, instead →</button>
         </form>
 
         <div class="disclaimer">
             <a href="https://transit.rso.uchicago.edu" target="_blank" rel="noopener noreferrer">
-                UChicago Transit Enthusiasts & Explorers RSO reminds you that you can save money going to the airport by taking transit.
+                UChicagoTransit.com is a parody and not a real service. UChicago Transit Enthusiasts & Explorers RSO reminds you that you can save money going to the airport and around the city by taking transit.
             </a>
         </div>
     </div>
@@ -341,7 +331,6 @@
             const direction = document.querySelector('input[name="direction"]:checked').value;
             const addressLabel = document.getElementById('addressLabel');
             const airportLabel = document.getElementById('airportLabel');
-            const timeLabel = document.getElementById('timeLabel');
             const addressGroup = document.getElementById('addressGroup');
             const airportGroup = document.getElementById('airportGroup');
             const calloutBox = document.getElementById('calloutBox');
@@ -350,7 +339,6 @@
                 // Going to airport: Address first, then Airport
                 addressLabel.textContent = 'From:';
                 airportLabel.textContent = 'To:';
-                timeLabel.textContent = 'Leaving UChicago at:';
                 addressGroup.classList.remove('field-order-2');
                 addressGroup.classList.add('field-order-1');
                 airportGroup.classList.remove('field-order-1');
@@ -360,7 +348,6 @@
                 // Coming from airport: Airport first, then Address
                 addressLabel.textContent = 'To:';
                 airportLabel.textContent = 'From:';
-                timeLabel.textContent = 'Arriving at UChicago at:';
                 addressGroup.classList.remove('field-order-1');
                 addressGroup.classList.add('field-order-2');
                 airportGroup.classList.remove('field-order-2');
@@ -380,8 +367,6 @@
             const direction = document.querySelector('input[name="direction"]:checked').value;
             const addressInput = document.getElementById('address').value;
             const airportCode = document.getElementById('airport').value;
-            const date = document.getElementById('date').value;
-            const time = document.getElementById('time').value;
 
             // Set up origin and destination based on direction
             let origin, destination;
@@ -404,41 +389,20 @@
                 destination = addressInput;
             }
 
-            // Combine date and time for departure time parameter
-            const departureDateTime = `${date}T${time}:00`;
-            const departureTimestamp = Math.floor(new Date(departureDateTime).getTime() / 1000);
-
-            // Debug: log the timestamp
-            console.log('Direction:', direction);
-            console.log('Date:', date);
-            console.log('Time:', time);
-            console.log('DateTime:', departureDateTime);
-            console.log('Timestamp:', departureTimestamp);
-            console.log('Human readable:', new Date(departureTimestamp * 1000).toString());
-
             // Construct Google Maps Directions API URL
-            // Official format: https://www.google.com/maps/dir/?api=1&origin=X&destination=Y&travelmode=transit&departure_time=TIMESTAMP
             const params = new URLSearchParams({
                 api: '1',
                 origin: origin,
                 destination: destination,
                 travelmode: 'transit',
-                transit_mode: 'rail|bus',
-                departure_time: departureTimestamp
+                transit_mode: 'rail|bus'
             });
 
             const mapsUrl = `https://www.google.com/maps/dir/?${params.toString()}`;
 
-            // Debug: log the URL
-            console.log('Maps URL:', mapsUrl);
-
             // Redirect to Google Maps
             window.location.href = mapsUrl;
         });
-
-        // Set minimum date to today
-        const today = new Date().toISOString().split('T')[0];
-        document.getElementById('date').setAttribute('min', today);
 
         // Initialize form labels
         updateFormLabels();
